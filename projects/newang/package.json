@@ -28,6 +28,7 @@
       "default": "./index.mjs"
     },
     "./styles": "./styles.scss",
+    "./styles.css": "./styles.css",
     "./styles/*": "./styles/*"
   },
   "peerDependencies": {

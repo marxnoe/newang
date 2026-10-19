@@ -78,7 +78,7 @@
                 "input": "projects/showcase/public"
               }
             ],
-            "styles": ["projects/showcase/src/styles.scss"]
+            "styles": ["dist/newang/styles.css", "projects/showcase/src/styles.css"]
           },
           "configurations": {
             "production": {

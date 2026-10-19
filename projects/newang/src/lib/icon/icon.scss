@@ -1,0 +1,55 @@
+@use '../../styles/tokens' as t;
+
+:host {
+  display: inline-flex;
+  flex: none;
+  line-height: 0;
+  vertical-align: middle;
+}
+
+.na-icon {
+  display: block;
+  overflow: visible;
+}
+
+.na-icon--default {
+  color: currentcolor;
+}
+
+.na-icon--muted {
+  color: var(--na-text-muted, t.$na-text-muted);
+}
+
+.na-icon--faint {
+  color: var(--na-text-faint, t.$na-text-faint);
+}
+
+.na-icon--accent {
+  color: var(--na-accent, t.$na-accent);
+}
+
+.na-icon--success {
+  color: var(--na-success, t.$na-success);
+}
+
+.na-icon--warning {
+  color: var(--na-warning, t.$na-warning);
+}
+
+.na-icon--danger {
+  color: var(--na-danger, t.$na-danger);
+}
+
+.na-icon--info {
+  color: var(--na-info, t.$na-info);
+}
+
+.na-icon--spin {
+  animation: na-icon-spin 0.9s linear infinite;
+}
+
+@keyframes na-icon-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

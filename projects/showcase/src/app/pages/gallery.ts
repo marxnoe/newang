@@ -16,6 +16,7 @@ import {
   NaGrid,
   NaHeader,
   NaHeading,
+  NaIcon,
   NaInput,
   NaLink,
   NaList,
@@ -28,11 +29,13 @@ import {
   NaSplit,
   NaStack,
   NaSwitch,
+  NaTab,
   NaTable,
   NaTabs,
   NaText,
   NaToolbar,
   NaTooltip,
+  NaUpload,
 } from 'newang';
 
 // Exhaustive gallery: every component, every state, stable ids for Playwright.
@@ -72,6 +75,9 @@ import {
     NaTabs,
     NaTooltip,
     NaToolbar,
+    NaIcon,
+    NaUpload,
+    NaTab,
   ],
   template: `
     <na-stack gap="xl">
@@ -247,6 +253,85 @@ import {
         </na-row>
       </na-stack></section>
 
+      <section id="sec-migration"><na-stack gap="md">
+        <na-heading level="2">Migration primitives</na-heading>
+        <na-row id="icon-row" gap="sm">
+          <na-icon name="inbox" />
+          <na-icon name="check" tone="success" />
+          <na-icon name="copy" tone="muted" />
+          <na-icon name="x" tone="danger" />
+          <na-icon name="upload" tone="accent" />
+          <na-icon name="download" />
+          <na-icon name="alert" tone="warning" />
+          <na-icon name="info" tone="info" />
+          <na-icon name="chevron-left" />
+          <na-icon name="chevron-right" />
+          <na-icon name="file" />
+          <na-icon name="spinner" />
+          <na-icon name="inbox" [size]="28" tone="muted" label="Inbox" />
+        </na-row>
+
+        <na-upload
+          id="upload-demo"
+          action="/upload"
+          name="file"
+          [limit]="2"
+          accept="video/*,audio/*"
+          drag
+          (change)="uploadStatus.set($event.status)"
+        />
+        <na-text tone="muted">last upload status: {{ uploadStatus() }}</na-text>
+
+        <na-row gap="md">
+          <na-link
+            id="link-copy"
+            href="https://example.com/share/abc123"
+            copyable
+            copyText="https://example.com/share/abc123"
+            (copied)="lastCopied.set($event)"
+          >Copyable direct link</na-link>
+          <na-text tone="muted">copied: {{ lastCopied() || 'nothing yet' }}</na-text>
+        </na-row>
+
+        @if (alertOpen()) {
+          <na-alert
+            id="alert-rich"
+            tone="warning"
+            showIcon
+            title="Storage nearly full"
+            description="Delete unused uploads or upgrade your plan before the next export."
+            closable
+            (closed)="alertOpen.set(false)"
+          >
+            Drafts are still saved locally.
+          </na-alert>
+        }
+
+        <na-radio-group
+          id="radio-segmented"
+          label="Source"
+          variant="segmented"
+          orientation="inline"
+          [options]="[
+            { value: 'file', label: 'File' },
+            { value: 'url', label: 'URL' },
+            { value: 'youtube', label: 'YouTube', disabled: true }
+          ]"
+          [(value)]="source"
+        />
+
+        <na-tabs id="tabs-projected" [(active)]="tabIndex" [(activeId)]="tabKey">
+          <na-tab id="upload-file" title="Upload file">
+            <na-field label="Kept mounted" hint="Switch tabs and the value survives.">
+              <input naInput id="tab-kept-input" placeholder="State survives" />
+            </na-field>
+          </na-tab>
+          <na-tab id="youtube" title="YouTube">
+            <na-text tone="muted">YouTube tab content.</na-text>
+          </na-tab>
+        </na-tabs>
+      </na-stack></section>
+
       <section id="sec-shell"><na-stack gap="md">
         <na-heading level="2">Shell</na-heading>
         <na-header
@@ -273,5 +358,11 @@ export class GalleryPage {
   readonly saved = signal(false);
   readonly modalOpen = signal(false);
   readonly tab = signal(0);
+  readonly tabIndex = signal(0);
+  readonly tabKey = signal<string | number>('upload-file');
+  readonly uploadStatus = signal('idle');
+  readonly lastCopied = signal('');
+  readonly alertOpen = signal(true);
+  readonly source = signal<string | number>('file');
   readonly reactive = new FormControl(true);
 }

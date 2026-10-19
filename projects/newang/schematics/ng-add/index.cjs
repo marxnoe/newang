@@ -1,64 +1,112 @@
 /**
  * ng-add schematic for newang.
- * Adds the dark theme import to the app styles and prints usage hints.
+ * SCSS apps get the theme import; plain-CSS apps get the compiled
+ * `newang/styles.css` entry in `angular.json` instead (no Sass required).
  * Plain JS with a `.cjs` extension so Node always parses it as
  * CommonJS, even when the published package sets `"type": "module"`.
  */
 const { chain } = require('@angular-devkit/schematics');
 
-const IMPORT = `@use 'newang/styles' as na;
+const SCSS_IMPORT = `@use 'newang/styles' as na;
 @include na.base();
 `;
+const CSS_ENTRY = 'node_modules/newang/styles.css';
 
-function resolveStylesPath(tree, projectName) {
-  const candidates = ['/angular.json', '/angular.jsonc'];
-  let workspace = null;
-  for (const p of candidates) {
-    if (tree.exists(p)) {
-      try {
-        workspace = JSON.parse(tree.read(p).toString('utf8'));
-      } catch {
-        workspace = null;
-      }
-      break;
+function readWorkspace(tree) {
+  for (const path of ['/angular.json', '/angular.jsonc']) {
+    if (!tree.exists(path)) continue;
+    try {
+      return { path, workspace: JSON.parse(tree.read(path).toString('utf8')) };
+    } catch {
+      return { path, workspace: null };
     }
   }
-  if (workspace && workspace.projects) {
-    const name =
-      projectName ||
-      workspace.defaultProject ||
-      Object.keys(workspace.projects).find((k) => workspace.projects[k].projectType === 'application') ||
-      Object.keys(workspace.projects)[0];
-    const proj = workspace.projects[name];
-    if (proj) {
-      const root = proj.sourceRoot || `${proj.root}/src`;
-      for (const ext of ['scss', 'sass', 'css']) {
-        const p = `/${root}/styles.${ext}`;
-        if (tree.exists(p)) return p;
-      }
-      return `/${root}/styles.scss`;
+  return null;
+}
+
+function resolveProject(workspace, projectName) {
+  if (!workspace || !workspace.projects) return null;
+  const name =
+    projectName ||
+    workspace.defaultProject ||
+    Object.keys(workspace.projects).find(
+      (key) => workspace.projects[key].projectType === 'application',
+    ) ||
+    Object.keys(workspace.projects)[0];
+  return name ? { name, project: workspace.projects[name] } : null;
+}
+
+function resolveStylesPath(tree, project) {
+  if (project) {
+    const root = project.sourceRoot || `${project.root}/src`;
+    for (const ext of ['scss', 'sass', 'css']) {
+      const path = `/${root.replace(/^\//, '')}/styles.${ext}`;
+      if (tree.exists(path)) return path;
     }
+    // File may not exist yet but angular.json already names the entry.
+    const styles = project.architect?.build?.options?.styles;
+    if (Array.isArray(styles)) {
+      const entry = styles.find(
+        (value) =>
+          typeof value === 'string' &&
+          !value.startsWith('node_modules/') &&
+          /(^|\/)styles\.(scss|sass|css)$/.test(value),
+      );
+      if (entry) return `/${entry.replace(/^\//, '')}`;
+    }
+    return `/${root.replace(/^\//, '')}/styles.scss`;
   }
   if (tree.exists('/src/styles.scss')) return '/src/styles.scss';
   return '/src/styles.scss';
 }
 
+function addCssEntry(tree, context, projectName) {
+  const found = readWorkspace(tree);
+  if (!found || !found.workspace) return false;
+  const resolved = resolveProject(found.workspace, projectName);
+  if (!resolved) return false;
+  const build = resolved.project.architect?.build;
+  if (!build) return false;
+  build.options = build.options || {};
+  const styles = Array.isArray(build.options.styles) ? build.options.styles : [];
+  if (styles.includes(CSS_ENTRY)) {
+    context.logger.info(`newang: angular.json already includes ${CSS_ENTRY}`);
+    return true;
+  }
+  build.options.styles = [CSS_ENTRY, ...styles];
+  tree.overwrite(found.path, `${JSON.stringify(found.workspace, null, 2)}\n`);
+  context.logger.info(`newang: added ${CSS_ENTRY} to ${found.path}`);
+  return true;
+}
+
 function addStyles() {
   return (tree, context) => {
     const opts = (context && context.options) || {};
-    const path = resolveStylesPath(tree, opts.project);
+    const found = readWorkspace(tree);
+    const resolved = found ? resolveProject(found.workspace, opts.project) : null;
+    const path = resolveStylesPath(tree, resolved && resolved.project);
+    const isCss = path.endsWith('.css');
+
+    if (isCss) {
+      if (addCssEntry(tree, context, opts.project)) return tree;
+      context.logger.warn(
+        'newang: could not edit angular.json automatically — add "node_modules/newang/styles.css" to your styles array.',
+      );
+      return tree;
+    }
+
     if (tree.exists(path)) {
       const current = tree.read(path).toString('utf8');
       if (!current.includes('newang/styles')) {
         const rec = tree.beginUpdate(path);
-        rec.insertLeft(0, IMPORT + (current.endsWith('\n') ? '' : '\n'));
+        rec.insertLeft(0, SCSS_IMPORT + (current.endsWith('\n') ? '' : '\n'));
         tree.commitUpdate(rec);
         context.logger.info(`newang: theme wired into ${path}`);
       } else {
         context.logger.info(`newang: ${path} already references newang/styles`);
       }
     } else {
-      tree.create(path, IMPORT);
+      tree.create(path, SCSS_IMPORT);
       context.logger.info(`newang: created ${path} with theme import`);
     }
     return tree;

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { NaHeading } from './typography';
+import { NaHeading, NaLink } from './typography';
 
 @Component({
   standalone: true,
@@ -34,5 +34,42 @@ describe('NaHeading', () => {
     f.detectChanges();
     const h2s = [...f.nativeElement.querySelectorAll('h2')].map((e: Element) => e.textContent);
     expect(h2s).toEqual(['Two', 'Fallback']);
+  });
+});
+
+describe('NaLink copyable', () => {
+  it('copies copyText and shows the copied state', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: { writeText },
+    });
+    const f = TestBed.createComponent(NaLink);
+    f.componentRef.setInput('href', 'https://example.com/a');
+    f.componentRef.setInput('copyText', 'https://example.com/share');
+    f.componentRef.setInput('copyable', true);
+    f.detectChanges();
+    let copied = '';
+    f.componentInstance.copied.subscribe((value) => (copied = value));
+
+    await f.componentInstance.copy(new MouseEvent('click'));
+    f.detectChanges();
+    expect(writeText).toHaveBeenCalledWith('https://example.com/share');
+    expect(copied).toBe('https://example.com/share');
+    expect(f.nativeElement.querySelector('.na-link__copy-label')?.textContent).toBe('Copied!');
+  });
+
+  it('falls back to href when copyText is empty', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: { writeText },
+    });
+    const f = TestBed.createComponent(NaLink);
+    f.componentRef.setInput('href', 'https://example.com/a');
+    f.componentRef.setInput('copyable', true);
+    f.detectChanges();
+    await f.componentInstance.copy(new MouseEvent('click'));
+    expect(writeText).toHaveBeenCalledWith('https://example.com/a');
   });
 });

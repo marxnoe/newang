@@ -16,6 +16,8 @@ export * from './lib/switch/switch';
 export * from './lib/checkbox/checkbox';
 export * from './lib/radio/radio';
 export * from './lib/tooltip/tooltip.directive';
+export * from './lib/icon/icon';
+export * from './lib/upload/upload';
 export * from './lib/avatar/avatar';
 export * from './lib/layout/layout';
 export * from './lib/typography/typography';

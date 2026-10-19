@@ -16,7 +16,10 @@ const fail = (name, detail) => {
 const ok = (name) => console.log(`ok ${name}`);
 
 const browser = await chromium.launch();
-const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+const ctx = await browser.newContext({
+  viewport: { width: 1440, height: 900 },
+  permissions: ['clipboard-read', 'clipboard-write'],
+});
 
 // Polls a condition (instant Playwright getters don't retry). Distinguishes
 // "never happens" (real bug) from "render race" (timing).
@@ -127,6 +130,80 @@ ok('modal');
 await page.locator('#demo-tabs button[role="tab"]').nth(2).click();
 await poll('tabs', async () => page.getByText('Panel 3 content.').count().then((n) => n > 0));
 ok('tabs');
+
+// projected tabs keep content mounted and switch by stable id
+await page.locator('#tab-kept-input').fill('survives');
+await page.locator('#tabs-projected button[role="tab"]').nth(1).click();
+await poll('tabs-projected-hide', async () =>
+  page.locator('#na-tab-upload-file-panel').getAttribute('hidden').then((h) => h !== null),
+);
+await page.locator('#tabs-projected button[role="tab"]').nth(0).click();
+await poll('tabs-projected-state', async () =>
+  page.locator('#tab-kept-input').inputValue().then((v) => v === 'survives'),
+);
+ok('tabs projected');
+
+// icons ship as inline SVG (decorative unless labelled)
+const iconCount = await page.locator('#icon-row svg').count();
+const iconHidden = await page
+  .locator('#icon-row svg')
+  .evaluateAll((els) => els.filter((el) => el.getAttribute('aria-hidden') !== 'true').length);
+if (iconCount < 12) fail('icons', `only ${iconCount} svg glyphs`);
+if (iconHidden !== 1) fail('icons', `expected one labelled icon, got ${iconHidden}`);
+ok('icons');
+
+// copyable link: visible Copied! state + (copied) output
+await page.locator('#link-copy .na-link__copy').click();
+await poll('copy-label', async () =>
+  page.locator('#link-copy .na-link__copy-label').textContent().then((t) => t === 'Copied!'),
+);
+await poll('copy-output', async () =>
+  page.getByText('copied: https://example.com/share/abc123').count().then((n) => n > 0),
+);
+ok('copyable link');
+
+// alert icon + description + close
+if (!(await page.locator('#alert-rich .na-alert__icon svg').count())) fail('alert-icon', 'missing');
+if (!(await page.locator('#alert-rich .na-alert__description').count()))
+  fail('alert-description', 'missing');
+await page.locator('#alert-rich .na-alert__close').click();
+await poll('alert-close', async () => page.locator('#alert-rich').count().then((n) => n === 0));
+ok('alert rich');
+
+// segmented radio: inline, per-option disabled and selection
+if (!(await page.locator('#radio-segmented .na-radio-group__options--segmented').count()))
+  fail('radio-segmented', 'segmented class missing');
+if (!(await page.locator('#radio-segmented input').nth(2).isDisabled()))
+  fail('radio-segmented', 'third option should be disabled');
+await page.locator('#radio-segmented .na-radio', { hasText: 'URL' }).click();
+await poll('radio-segmented-pick', async () =>
+  page.locator('#radio-segmented input').nth(1).isChecked(),
+);
+ok('radio segmented');
+
+// upload dropzone: native button (keyboard) + drag-over state without consumer CSS
+const dropTag = await page
+  .locator('#upload-demo .na-upload__dropzone')
+  .evaluate((el) => el.tagName);
+if (dropTag !== 'BUTTON') fail('upload-keyboard', `dropzone is <${dropTag}>, expected <BUTTON>`);
+await page.locator('#upload-demo .na-upload__dropzone').evaluate((el) => {
+  const data = new DataTransfer();
+  el.dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer: data }));
+});
+await poll('upload-dragover', async () =>
+  page
+    .locator('#upload-demo .na-upload__dropzone')
+    .evaluate((el) => el.classList.contains('na-upload__dropzone--over')),
+);
+await page.locator('#upload-demo .na-upload__dropzone').evaluate((el) => {
+  el.dispatchEvent(new DragEvent('dragleave', { bubbles: true, cancelable: true }));
+});
+await poll('upload-dragleave', async () =>
+  page
+    .locator('#upload-demo .na-upload__dropzone')
+    .evaluate((el) => !el.classList.contains('na-upload__dropzone--over')),
+);
+ok('upload dropzone');
 
 // tooltip attributes
 const tipSpanTab = await page.locator('#tip-span').getAttribute('tabindex');
@@ -441,7 +518,7 @@ checkJsErrors('gallery', galleryErrors);
 }
 
 // --- 5. per-section close-ups for visual review -----------------------------
-for (const sec of ['sec-buttons', 'sec-forms', 'sec-type', 'sec-display', 'sec-layout', 'sec-overlay']) {
+for (const sec of ['sec-buttons', 'sec-forms', 'sec-type', 'sec-display', 'sec-layout', 'sec-overlay', 'sec-migration']) {
   await page.locator(`#${sec}`).screenshot({ path: `${OUT}/${sec}.png` });
 }
 ok('section close-ups');
