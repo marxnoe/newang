@@ -1,3 +1,9 @@
+## [1.4.0](https://github.com/mobn0/newang/compare/v1.3.2...v1.4.0) (2026-10-20)
+
+### Features
+
+* close ng-zorro migration gaps ([#2](https://github.com/mobn0/newang/issues/2)) ([f677bf8](https://github.com/mobn0/newang/commit/f677bf829c4ac7177d5750cf2e9b1c584d400e50)), closes [#1](https://github.com/mobn0/newang/issues/1)
+
 ## [1.3.2](https://github.com/mobn0/newang/compare/v1.3.1...v1.3.2) (2026-10-08)
 
 ### Bug Fixes
