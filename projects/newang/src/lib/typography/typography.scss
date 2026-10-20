@@ -62,9 +62,54 @@
   color: var(--na-accent, t.$na-accent);
 }
 
+.na-link-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: t.$na-space-sm;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
 .na-link {
   color: var(--na-accent, t.$na-accent);
   text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.na-link__copy {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  height: 24px;
+  padding: 0 8px;
+  font-family: var(--na-font, t.$na-font);
+  font-size: var(--na-fs-xs, t.$na-fs-xs);
+  font-weight: var(--na-weight-semibold, t.$na-weight-semibold);
+  color: var(--na-text-muted, t.$na-text-muted);
+  background: transparent;
+  border: 1px solid var(--na-border, t.$na-border);
+  border-radius: var(--na-radius-sm, t.$na-radius-sm);
+  cursor: pointer;
+  box-shadow: none;
+  transition: color var(--na-dur, t.$na-dur) ease,
+    border-color var(--na-dur, t.$na-dur) ease;
+}
+
+.na-link__copy:hover {
+  color: var(--na-text, t.$na-text);
+  border-color: var(--na-border-strong, t.$na-border-strong);
+}
+
+.na-link__copy--done,
+.na-link__copy--done:hover {
+  color: var(--na-accent, t.$na-accent);
+  border-color: var(--na-accent, t.$na-accent);
+}
+
+.na-link__copy-label {
+  line-height: 1;
 }
 
 .na-code {

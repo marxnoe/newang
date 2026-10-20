@@ -1,8 +1,4 @@
-// Consumer entry: the whole library theme in two lines.
-@use 'newang/styles' as na;
-@include na.base();
-
-// Tiny showcase-only helpers (docs chrome, not part of the library).
+/* Plain-CSS consumer entry: one angular.json styles entry, no Sass. */
 .show-nav {
   display: flex;
   gap: 4px;

@@ -1,0 +1,153 @@
+@use '../../styles/tokens' as t;
+
+:host {
+  display: block;
+}
+
+.na-upload {
+  display: flex;
+  flex-direction: column;
+  gap: t.$na-space-sm;
+}
+
+.na-upload__dropzone {
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: t.$na-space-xs;
+  width: 100%;
+  min-height: 132px;
+  padding: t.$na-space-lg t.$na-space-md;
+  box-sizing: border-box;
+  font-family: var(--na-font, t.$na-font);
+  color: var(--na-text, t.$na-text);
+  background: var(--na-surface-1, t.$na-surface-1);
+  border: 1px dashed var(--na-border-strong, t.$na-border-strong);
+  border-radius: var(--na-radius-md, t.$na-radius-md);
+  cursor: pointer;
+  box-shadow: none;
+  transition: border-color var(--na-dur, t.$na-dur) ease,
+    background var(--na-dur, t.$na-dur) ease;
+}
+
+.na-upload__dropzone:hover:not(:disabled) {
+  border-color: var(--na-accent, t.$na-accent);
+}
+
+.na-upload__dropzone--over:not(:disabled) {
+  border-color: var(--na-accent, t.$na-accent);
+  background: var(--na-surface-2, t.$na-surface-2);
+}
+
+.na-upload__dropzone:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.na-upload__title {
+  font-size: var(--na-fs-md, t.$na-fs-md);
+  font-weight: var(--na-weight-semibold, t.$na-weight-semibold);
+}
+
+.na-upload__hint {
+  font-size: var(--na-fs-xs, t.$na-fs-xs);
+  color: var(--na-text-faint, t.$na-text-faint);
+}
+
+.na-upload__input {
+  display: none;
+}
+
+.na-upload__files {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: t.$na-space-xs;
+}
+
+.na-upload__file {
+  display: flex;
+  align-items: flex-start;
+  gap: t.$na-space-sm;
+  padding: 10px 12px;
+  background: var(--na-surface-1, t.$na-surface-1);
+  border: 1px solid var(--na-border, t.$na-border);
+  border-radius: var(--na-radius-md, t.$na-radius-md);
+}
+
+.na-upload__file--error {
+  border-color: var(--na-danger, t.$na-danger);
+}
+
+.na-upload__meta {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.na-upload__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--na-fs-sm, t.$na-fs-sm);
+  font-weight: var(--na-weight-medium, t.$na-weight-medium);
+  color: var(--na-text, t.$na-text);
+}
+
+.na-upload__detail {
+  font-size: var(--na-fs-xs, t.$na-fs-xs);
+  color: var(--na-text-muted, t.$na-text-muted);
+}
+
+.na-upload__file--done .na-upload__detail {
+  color: var(--na-success, t.$na-success);
+}
+
+.na-upload__file--error .na-upload__detail {
+  color: var(--na-danger, t.$na-danger);
+}
+
+.na-upload__bar {
+  display: block;
+  height: 4px;
+  margin-top: 4px;
+  background: var(--na-surface-3, t.$na-surface-3);
+  border: 1px solid var(--na-border, t.$na-border);
+  overflow: hidden;
+}
+
+.na-upload__fill {
+  display: block;
+  height: 100%;
+  background: var(--na-accent, t.$na-accent);
+  transition: width var(--na-dur, t.$na-dur) linear;
+}
+
+.na-upload__remove {
+  appearance: none;
+  flex: none;
+  height: 24px;
+  padding: 0 8px;
+  font-family: var(--na-font, t.$na-font);
+  font-size: var(--na-fs-xs, t.$na-fs-xs);
+  font-weight: var(--na-weight-semibold, t.$na-weight-semibold);
+  color: var(--na-text-muted, t.$na-text-muted);
+  background: transparent;
+  border: 1px solid var(--na-border, t.$na-border);
+  border-radius: var(--na-radius-sm, t.$na-radius-sm);
+  cursor: pointer;
+  box-shadow: none;
+  transition: color var(--na-dur, t.$na-dur) ease,
+    border-color var(--na-dur, t.$na-dur) ease;
+}
+
+.na-upload__remove:hover {
+  color: var(--na-danger, t.$na-danger);
+  border-color: var(--na-danger, t.$na-danger);
+}

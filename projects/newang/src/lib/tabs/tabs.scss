@@ -39,3 +39,7 @@
 .na-tabs__panel {
   padding-top: t.$na-space-md;
 }
+
+.na-tab__panel[hidden] {
+  display: none;
+}

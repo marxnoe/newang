@@ -1,0 +1,8 @@
+// Compiled CSS entry. Source of truth for `newang/styles.css`:
+//
+//   "styles": ["node_modules/newang/styles.css"]
+//
+// Keep the SCSS entry (`newang/styles` + `@include na.base`) for token overrides.
+@use './new-ang' as na;
+
+@include na.base;

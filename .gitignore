@@ -13,6 +13,9 @@
 /projects/newang/LICENSE
 /projects/newang/CHANGELOG.md
 
+# Compiled plain-CSS theme (built by `npm run build:styles`)
+/projects/newang/src/styles.css
+
 # Node
 /node_modules
 npm-debug.log

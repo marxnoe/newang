@@ -1,5 +1,16 @@
-import { ChangeDetectionStrategy, Component, input, numberAttribute } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  booleanAttribute,
+  input,
+  numberAttribute,
+  output,
+  signal,
+} from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
+import { NaIcon } from '../icon/icon';
+
 
 /** `<na-heading level="1">Title</na-heading>` — size/weight/margins baked in.
  * Content projects through a single shared slot stamped into whichever
@@ -53,17 +64,96 @@ export class NaText {
   readonly size = input<'sm' | 'md' | 'lg'>('md');
 }
 
-/** `<na-link href="…">Docs</na-link>` — no `href` renders a placeholder link with no jump. */
+/**
+ * `<na-link href="…">Docs</na-link>` — no `href` renders a placeholder link with no jump.
+ * Add `copyable` for a clipboard button; `copyText` defaults to `href`.
+ */
 @Component({
   selector: 'na-link',
   standalone: true,
+  imports: [NaIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './typography.scss',
-  template: `<a class="na-link" [attr.href]="href() || null"><ng-content /></a>`,
+  template: `
+    <span class="na-link-wrap">
+      <a class="na-link" [attr.href]="href() || null"><ng-content /></a>
+      @if (copyable()) {
+        <button
+          type="button"
+          class="na-link__copy"
+          [class.na-link__copy--done]="copiedState()"
+          [attr.aria-label]="copiedState() ? 'Copied' : 'Copy link'"
+          (click)="copy($event)"
+        >
+          <na-icon [name]="copiedState() ? 'check' : 'copy'" [size]="14" />
+          <span class="na-link__copy-label">{{ copiedState() ? 'Copied!' : 'Copy' }}</span>
+        </button>
+      }
+    </span>
+  `,
 })
-export class NaLink {
+export class NaLink implements OnDestroy {
   readonly href = input('');
+  readonly copyable = input(false, { transform: booleanAttribute });
+  readonly copyText = input('');
+  readonly copied = output<string>();
+
+  readonly copiedState = signal(false);
+  private resetTimer: ReturnType<typeof setTimeout> | null = null;
+
+  async copy(event: Event): Promise<void> {
+    event.preventDefault();
+    event.stopPropagation();
+    const text = this.copyText() || this.href();
+    if (!text) return;
+    const ok = await writeToClipboard(text);
+    if (!ok) return;
+    this.copiedState.set(true);
+    this.copied.emit(text);
+    if (this.resetTimer) clearTimeout(this.resetTimer);
+    this.resetTimer = setTimeout(() => {
+      this.copiedState.set(false);
+      this.resetTimer = null;
+    }, 2000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.resetTimer) clearTimeout(this.resetTimer);
+  }
 }
+
+async function writeToClipboard(text: string): Promise<boolean> {
+  try {
+    if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch {
+    // Permission denied or insecure context — fall through to execCommand.
+  }
+  return legacyCopy(text);
+}
+
+function legacyCopy(text: string): boolean {
+  if (typeof document === 'undefined') return false;
+  const area = document.createElement('textarea');
+  area.value = text;
+  area.setAttribute('readonly', '');
+  area.style.position = 'fixed';
+  area.style.top = '-1000px';
+  area.style.opacity = '0';
+  document.body.appendChild(area);
+  area.select();
+  let ok = false;
+  try {
+    ok = document.execCommand('copy');
+  } catch {
+    ok = false;
+  }
+  document.body.removeChild(area);
+  return ok;
+}
+
 
 /** `<na-code>npm i</na-code>` */
 @Component({
