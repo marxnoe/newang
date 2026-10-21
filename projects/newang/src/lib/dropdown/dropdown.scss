@@ -1,0 +1,94 @@
+@use '../../styles/tokens' as t;
+
+:host {
+  display: inline-block;
+}
+
+.na-dropdown {
+  position: relative;
+  display: inline-block;
+  font-family: var(--na-font, t.$na-font);
+}
+
+.na-dropdown__trigger {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: t.$na-space-sm;
+  height: var(--na-control-h-md, t.$na-control-h-md);
+  padding: 0 12px 0 16px;
+  font-family: inherit;
+  font-size: var(--na-fs-sm, t.$na-fs-sm);
+  font-weight: var(--na-weight-semibold, t.$na-weight-semibold);
+  color: var(--na-text, t.$na-text);
+  background: var(--na-surface-1, t.$na-surface-1);
+  border: 1px solid var(--na-border-strong, t.$na-border-strong);
+  border-radius: var(--na-radius-md, t.$na-radius-md);
+  cursor: pointer;
+  box-shadow: none;
+  transition: background var(--na-dur, t.$na-dur) ease;
+}
+
+.na-dropdown__trigger:hover:not(:disabled) {
+  background: var(--na-surface-2, t.$na-surface-2);
+}
+
+.na-dropdown__trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.na-dropdown__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 45;
+  min-width: 100%;
+  width: max-content;
+  max-width: 280px;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: var(--na-surface-1, t.$na-surface-1);
+  border: 1px solid var(--na-border, t.$na-border);
+  border-radius: var(--na-radius-md, t.$na-radius-md);
+  box-shadow: none;
+}
+
+.na-dropdown__item {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: var(--na-control-h-sm, t.$na-control-h-sm);
+  padding: 0 10px;
+  font-family: inherit;
+  font-size: var(--na-fs-sm, t.$na-fs-sm);
+  text-align: left;
+  color: var(--na-text, t.$na-text);
+  background: transparent;
+  border: 0;
+  border-radius: var(--na-radius-sm, t.$na-radius-sm);
+  cursor: pointer;
+}
+
+.na-dropdown__item:hover:not(:disabled),
+.na-dropdown__item:focus-visible {
+  background: var(--na-surface-2, t.$na-surface-2);
+}
+
+.na-dropdown__item--danger {
+  color: var(--na-danger, t.$na-danger);
+}
+
+.na-dropdown__item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.na-dropdown__empty {
+  padding: 8px 10px;
+  font-size: var(--na-fs-sm, t.$na-fs-sm);
+  color: var(--na-text-faint, t.$na-text-faint);
+}

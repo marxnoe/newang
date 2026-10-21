@@ -1,0 +1,36 @@
+@use '../../styles/tokens' as t;
+
+:host {
+  display: block;
+}
+
+.na-datepicker {
+  display: flex;
+  flex-direction: column;
+  gap: t.$na-space-xs;
+}
+
+.na-datepicker__label {
+  font-family: var(--na-font, t.$na-font);
+  font-size: var(--na-fs-sm, t.$na-fs-sm);
+  font-weight: var(--na-weight-semibold, t.$na-weight-semibold);
+  color: var(--na-text, t.$na-text);
+}
+
+.na-datepicker__asterisk {
+  color: var(--na-accent, t.$na-accent);
+}
+
+.na-datepicker__hint {
+  font-size: var(--na-fs-xs, t.$na-fs-xs);
+  color: var(--na-text-muted, t.$na-text-muted);
+}
+
+.na-datepicker__error {
+  font-size: var(--na-fs-xs, t.$na-fs-xs);
+  color: var(--na-danger, t.$na-danger);
+}
+
+.na-datepicker__input {
+  color-scheme: dark;
+}

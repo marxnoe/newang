@@ -1,0 +1,61 @@
+@use '../../styles/tokens' as t;
+
+:host {
+  display: block;
+}
+
+.na-pagination {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: t.$na-space-xs;
+}
+
+.na-pagination__button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--na-control-h-sm, t.$na-control-h-sm);
+  height: var(--na-control-h-sm, t.$na-control-h-sm);
+  padding: 0 8px;
+  font-family: var(--na-font, t.$na-font);
+  font-size: var(--na-fs-sm, t.$na-fs-sm);
+  font-weight: var(--na-weight-semibold, t.$na-weight-semibold);
+  color: var(--na-text-muted, t.$na-text-muted);
+  background: var(--na-surface-1, t.$na-surface-1);
+  border: 1px solid var(--na-border, t.$na-border);
+  border-radius: var(--na-radius-sm, t.$na-radius-sm);
+  cursor: pointer;
+  box-shadow: none;
+  transition: color var(--na-dur, t.$na-dur) ease,
+    border-color var(--na-dur, t.$na-dur) ease,
+    background var(--na-dur, t.$na-dur) ease;
+}
+
+.na-pagination__button:hover:not(:disabled) {
+  color: var(--na-text, t.$na-text);
+  border-color: var(--na-border-strong, t.$na-border-strong);
+}
+
+.na-pagination__button--active,
+.na-pagination__button--active:hover:not(:disabled) {
+  color: var(--na-accent-ink, t.$na-accent-ink);
+  background: var(--na-accent, t.$na-accent);
+  border-color: var(--na-accent, t.$na-accent);
+}
+
+.na-pagination__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.na-pagination__ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--na-control-h-sm, t.$na-control-h-sm);
+  height: var(--na-control-h-sm, t.$na-control-h-sm);
+  color: var(--na-text-faint, t.$na-text-faint);
+  font-size: var(--na-fs-sm, t.$na-fs-sm);
+}

@@ -205,6 +205,95 @@ await poll('upload-dragleave', async () =>
 );
 ok('upload dropzone');
 
+// P2 parity: select, datepicker, dropdown, popconfirm, drawer, pagination,
+// skeleton, imperative message/notification.
+await page.locator('#select-demo button[role="combobox"]').click();
+await page.locator('#select-demo [role="option"]').first().waitFor();
+if ((await page.locator('#select-demo [role="option"]').nth(3).getAttribute('aria-disabled')) !== 'true')
+  fail('select', 'disabled option not disabled');
+// Drive the listbox from the keyboard: ArrowDown moves from Pro to Team and
+// Enter selects. This also avoids Playwright retrying a click when the option
+// is detached as the menu closes.
+await page.keyboard.press('ArrowDown');
+await page.keyboard.press('Enter');
+await poll('select', async () =>
+  page.locator('#select-demo button[role="combobox"]').textContent().then((t) => t?.includes('Team')),
+);
+await poll('select-close', async () =>
+  page
+    .locator('#select-demo button[role="combobox"]')
+    .getAttribute('aria-expanded')
+    .then((v) => v === 'false'),
+);
+ok('select');
+
+await page.locator('#datepicker-demo input[type="date"]').fill('2026-05-06');
+await poll('datepicker', async () =>
+  page.locator('#datepicker-demo input[type="date"]').inputValue().then((v) => v === '2026-05-06'),
+);
+ok('datepicker');
+
+await page.locator('#dropdown-demo button').click();
+await page.locator('#dropdown-demo [role="menuitem"]', { hasText: 'Edit' }).click();
+await poll('dropdown', async () => page.getByText('action: Edit').count().then((n) => n > 0));
+ok('dropdown');
+
+await page.locator('#popconfirm-demo .na-popconfirm__trigger button').click();
+await page.locator('#popconfirm-demo [role="alertdialog"]').waitFor();
+await page.locator('#popconfirm-demo .na-popconfirm__button--confirm').click();
+await poll('popconfirm', async () => page.getByText('confirmations: 1').count().then((n) => n > 0));
+ok('popconfirm');
+
+await page.locator('#drawer-open button').click();
+await page.locator('#demo-drawer [role="dialog"]').waitFor();
+await page.keyboard.press('Escape');
+await poll('drawer-escape', async () =>
+  page.locator('#demo-drawer [role="dialog"]').count().then((n) => n === 0),
+);
+await page.locator('#drawer-open button').click();
+await page.locator('#demo-drawer [role="dialog"]').waitFor();
+await page.locator('#demo-drawer .na-drawer__overlay').click({ position: { x: 40, y: 400 } });
+await poll('drawer-backdrop', async () =>
+  page.locator('#demo-drawer [role="dialog"]').count().then((n) => n === 0),
+);
+ok('drawer');
+
+const initialPage = await page.locator('#pagination-demo [aria-current="page"]').textContent();
+if (initialPage?.trim() !== '3') fail('pagination', `initial page ${initialPage}`);
+await page.locator('#pagination-demo [aria-label="Page 4"]').click();
+await poll('pagination', async () =>
+  page
+    .locator('#pagination-demo [aria-current="page"]')
+    .textContent()
+    .then((t) => t?.trim() === '4'),
+);
+ok('pagination');
+
+if ((await page.locator('#sec-p2 .na-skeleton__shape').count()) < 4) fail('skeleton', 'shapes missing');
+if (!(await page.locator('#sec-p2 .na-skeleton__shape--circle').count())) fail('skeleton', 'circle missing');
+ok('skeleton');
+
+await page.locator('#msg-success button').click();
+await poll('message-success', async () =>
+  page.locator('.na-message-stack .na-message--success', { hasText: 'Draft saved' }).count().then((n) => n > 0),
+);
+await page.locator('.na-message-stack .na-message__close').first().click();
+await poll('message-dismiss', async () => page.locator('.na-message-stack').count().then((n) => n === 0));
+
+await page.locator('#msg-error button').click();
+await poll('message-error', async () =>
+  page.locator('.na-message-stack .na-message--danger[role="alert"]').count().then((n) => n > 0),
+);
+await page.locator('.na-message-stack .na-message__close').first().click();
+
+await page.locator('#notif-demo button').click();
+await poll('notification', async () =>
+  page.locator('.na-message-stack .na-message--notification .na-message__title', { hasText: 'Downloads' }).count().then((n) => n > 0),
+);
+await page.locator('.na-message-stack .na-message__close').first().click();
+await poll('message-stack-clear', async () => page.locator('.na-message-stack').count().then((n) => n === 0));
+ok('message/notification');
+
 // tooltip attributes
 const tipSpanTab = await page.locator('#tip-span').getAttribute('tabindex');
 const tipBtnTab = await page.locator('#tip-btn').getAttribute('tabindex');

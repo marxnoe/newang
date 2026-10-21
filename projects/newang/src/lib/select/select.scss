@@ -1,0 +1,103 @@
+@use '../../styles/tokens' as t;
+
+:host {
+  display: block;
+}
+
+.na-select {
+  position: relative;
+  font-family: var(--na-font, t.$na-font);
+}
+
+.na-select__trigger {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: t.$na-space-sm;
+  width: 100%;
+  height: var(--na-control-h-md, t.$na-control-h-md);
+  padding: 0 12px 0 14px;
+  font-family: inherit;
+  font-size: var(--na-fs-md, t.$na-fs-md);
+  color: var(--na-text, t.$na-text);
+  background: var(--na-surface-1, t.$na-surface-1);
+  border: 1px solid var(--na-border, t.$na-border);
+  border-radius: var(--na-radius-md, t.$na-radius-md);
+  cursor: pointer;
+  box-shadow: none;
+  transition: border-color var(--na-dur, t.$na-dur) ease;
+}
+
+.na-select__trigger:hover:not(:disabled) {
+  border-color: var(--na-border-strong, t.$na-border-strong);
+}
+
+.na-select--open .na-select__trigger {
+  border-color: var(--na-accent, t.$na-accent);
+}
+
+.na-select__trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.na-select__value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.na-select__value--placeholder {
+  color: var(--na-text-faint, t.$na-text-faint);
+}
+
+.na-select__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  left: 0;
+  z-index: 40;
+  max-height: 240px;
+  margin: 0;
+  padding: 4px;
+  overflow-y: auto;
+  list-style: none;
+  background: var(--na-surface-1, t.$na-surface-1);
+  border: 1px solid var(--na-border, t.$na-border);
+  border-radius: var(--na-radius-md, t.$na-radius-md);
+  box-shadow: none;
+}
+
+.na-select__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: t.$na-space-sm;
+  min-height: var(--na-control-h-sm, t.$na-control-h-sm);
+  padding: 0 10px;
+  border-radius: var(--na-radius-sm, t.$na-radius-sm);
+  font-size: var(--na-fs-sm, t.$na-fs-sm);
+  color: var(--na-text, t.$na-text);
+  cursor: pointer;
+}
+
+.na-select__option--active {
+  background: var(--na-surface-2, t.$na-surface-2);
+}
+
+.na-select__option--selected {
+  color: var(--na-accent, t.$na-accent);
+  font-weight: var(--na-weight-semibold, t.$na-weight-semibold);
+}
+
+.na-select__option--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.na-select__empty {
+  padding: 8px 10px;
+  font-size: var(--na-fs-sm, t.$na-fs-sm);
+  color: var(--na-text-faint, t.$na-text-faint);
+}

@@ -1,0 +1,35 @@
+@use '../../styles/tokens' as t;
+
+:host {
+  display: block;
+}
+
+.na-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: t.$na-space-sm;
+  width: 100%;
+}
+
+.na-skeleton__shape {
+  display: block;
+  max-width: 100%;
+  background: var(--na-surface-3, t.$na-surface-3);
+  border-radius: var(--na-radius-sm, t.$na-radius-sm);
+  animation: na-skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+.na-skeleton__shape--circle {
+  border-radius: 50%;
+}
+
+@keyframes na-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.45;
+  }
+}

@@ -1,0 +1,94 @@
+@use '../../styles/tokens' as t;
+
+:host {
+  display: block;
+  pointer-events: auto;
+}
+
+.na-message {
+  display: flex;
+  align-items: flex-start;
+  gap: t.$na-space-sm;
+  width: 100%;
+  padding: t.$na-space-sm 10px t.$na-space-sm t.$na-space-sm;
+  font-family: var(--na-font, t.$na-font);
+  background: var(--na-surface-1, t.$na-surface-1);
+  border: 1px solid var(--na-border, t.$na-border);
+  border-left-width: 2px;
+  border-radius: var(--na-radius-md, t.$na-radius-md);
+  box-shadow: none;
+  animation: na-message-in var(--na-dur, t.$na-dur) ease;
+}
+
+.na-message--success {
+  border-left-color: var(--na-success, t.$na-success);
+}
+
+.na-message--info {
+  border-left-color: var(--na-info, t.$na-info);
+}
+
+.na-message--warning {
+  border-left-color: var(--na-warning, t.$na-warning);
+}
+
+.na-message--danger {
+  border-left-color: var(--na-danger, t.$na-danger);
+}
+
+.na-message--notification {
+  padding: t.$na-space-md;
+  border-left-width: 3px;
+}
+
+.na-message__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.na-message__title {
+  margin: 0 0 2px;
+  font-size: var(--na-fs-sm, t.$na-fs-sm);
+  font-weight: var(--na-weight-semibold, t.$na-weight-semibold);
+  color: var(--na-text, t.$na-text);
+}
+
+.na-message__text {
+  margin: 0;
+  font-size: var(--na-fs-sm, t.$na-fs-sm);
+  line-height: 1.45;
+  color: var(--na-text-muted, t.$na-text-muted);
+}
+
+.na-message--notification .na-message__text {
+  font-size: var(--na-fs-md, t.$na-fs-md);
+}
+
+.na-message__close {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  color: var(--na-text-faint, t.$na-text-faint);
+  background: transparent;
+  border: 0;
+  border-radius: var(--na-radius-sm, t.$na-radius-sm);
+  cursor: pointer;
+  box-shadow: none;
+  transition: color var(--na-dur, t.$na-dur) ease;
+}
+
+.na-message__close:hover {
+  color: var(--na-text, t.$na-text);
+}
+
+@keyframes na-message-in {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+}
