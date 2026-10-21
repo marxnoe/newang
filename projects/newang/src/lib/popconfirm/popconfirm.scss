@@ -1,0 +1,75 @@
+@use '../../styles/tokens' as t;
+
+:host {
+  display: inline-block;
+}
+
+.na-popconfirm {
+  position: relative;
+  display: inline-block;
+  font-family: var(--na-font, t.$na-font);
+}
+
+.na-popconfirm__trigger {
+  display: inline-block;
+}
+
+.na-popconfirm__bubble {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 50;
+  width: 260px;
+  max-width: min(260px, 80vw);
+  padding: t.$na-space-sm;
+  background: var(--na-surface-2, t.$na-surface-2);
+  border: 1px solid var(--na-border, t.$na-border);
+  border-radius: var(--na-radius-md, t.$na-radius-md);
+  box-shadow: none;
+}
+
+.na-popconfirm__message {
+  margin: 0;
+  font-size: var(--na-fs-sm, t.$na-fs-sm);
+  color: var(--na-text, t.$na-text);
+}
+
+.na-popconfirm__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: t.$na-space-xs;
+  margin-top: t.$na-space-sm;
+}
+
+.na-popconfirm__button {
+  appearance: none;
+  height: var(--na-control-h-sm, t.$na-control-h-sm);
+  padding: 0 12px;
+  font-family: inherit;
+  font-size: var(--na-fs-xs, t.$na-fs-xs);
+  font-weight: var(--na-weight-semibold, t.$na-weight-semibold);
+  border-radius: var(--na-radius-sm, t.$na-radius-sm);
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.na-popconfirm__button--cancel {
+  color: var(--na-text, t.$na-text);
+  background: var(--na-surface-1, t.$na-surface-1);
+  border: 1px solid var(--na-border-strong, t.$na-border-strong);
+}
+
+.na-popconfirm__button--cancel:hover {
+  background: var(--na-surface-3, t.$na-surface-3);
+}
+
+.na-popconfirm__button--confirm {
+  color: var(--na-accent-ink, t.$na-accent-ink);
+  background: var(--na-accent, t.$na-accent);
+  border: 1px solid var(--na-accent, t.$na-accent);
+}
+
+.na-popconfirm__button--confirm:hover {
+  background: var(--na-accent-hover, t.$na-accent-hover);
+  border-color: var(--na-accent-hover, t.$na-accent-hover);
+}

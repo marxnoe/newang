@@ -94,6 +94,44 @@ No `class=`, no `style=`, no stylesheets. Control everything with inputs: `gap`,
 - `na-header` centres its actions slot against the whole title block (title plus subtitle). Below 768px the bar stacks: title first, actions beneath it. Long titles wrap rather than pushing actions out. The bottom hairline uses `--na-border`.
 - `na-breadcrumbs` accepts plain strings or `{ label, href }` items — items with `href` render as links.
 - `na-modal` closes on backdrop click, ✕, or `Escape` (handle `(closed)`).
+- `na-select` is a custom listbox driven by `{ value, label, disabled? }` options and binds via `[(value)]` or `formControl`:
+  ```html
+  <na-select [options]="plans" [(value)]="plan" placeholder="Choose a plan" />
+  ```
+  Arrow keys open/move, Enter/Space picks, Escape closes, and the selected option is exposed through `aria-activedescendant`.
+- `na-datepicker` is a native `<input type="date">` in the same field shell rhythm, with `label`, `hint`, `error`, `min`, `max`, `disabled` and CVA support:
+  ```html
+  <na-datepicker label="Start date" [(value)]="date" min="2026-01-01" />
+  ```
+  `value`/`formControl` read and write `yyyy-mm-dd` strings; `Date` objects passed to `writeValue` are normalized.
+- `na-dropdown` renders a flat action menu from `{ label, value, disabled?, danger? }` items and emits `(selected)`:
+  ```html
+  <na-dropdown label="Actions" [items]="actions" (selected)="run($event)" />
+  ```
+  Arrow keys/Home/End move focus, Escape and outside clicks close, and `open` is a two-way model.
+- `na-drawer` mirrors `na-modal` with a full-height side panel: `title`, `open`, `(closed)`, `position="right|left"` (default right) and optional `width`.
+- `na-popconfirm` wraps a projected trigger in an inline confirmation bubble:
+  ```html
+  <na-popconfirm message="Delete this?" (confirmed)="remove()">
+    <na-button>Delete</na-button>
+  </na-popconfirm>
+  ```
+  `confirmLabel`/`cancelLabel` are configurable; Escape and outside clicks cancel without emitting.
+- Inject `NaMessage`/`NaNotification` for imperative feedback. Both render a fixed, bordered top-right stack with `aria-live`; methods return an id for `dismiss(id)`:
+  ```ts
+  private readonly messages = inject(NaMessage);
+  private readonly notifications = inject(NaNotification);
+  this.messages.success('Draft saved');
+  this.messages.error('Upload failed', { duration: 0 }); // sticky
+  this.notifications.success('Export ready', { title: 'Downloads' });
+  ```
+  Messages auto-dismiss after 4s, notifications after 6s; `duration: 0` keeps them until dismissed.
+- `na-pagination` uses a bounded window (`1 … 9 10 11 … 20`) and binds `[(page)]`:
+  ```html
+  <na-pagination [total]="95" [pageSize]="10" [(page)]="page" />
+  ```
+  `pageChange` is the model output; pages are 1-based and all controls disable together.
+- `na-skeleton` pulses opacity only (no gradients): `width`, `height`, `lines`, `circle`, and an optional `label` for `role="status"`; without a label it is `aria-hidden`.
 - `na-progress` clamps `value` to 0–100.
 
 ## Components
@@ -101,11 +139,12 @@ No `class=`, no `style=`, no stylesheets. Control everything with inputs: `gap`,
 | Area | Components |
 | --- | --- |
 | Actions | `na-button` |
-| Forms | `na-field`, `na-form`, `input[naInput]`, `na-switch`, `na-checkbox`, `na-radio-group`, `na-upload` |
+| Forms | `na-field`, `na-form`, `input[naInput]`, `na-switch`, `na-checkbox`, `na-radio-group`, `na-upload`, `na-select`, `na-datepicker` |
 | Layout | `na-app`, `na-page`, `na-stack`, `na-row`, `na-grid`, `na-split`, `na-divider`, `na-spacer` |
 | Type | `na-heading`, `na-text`, `na-link`, `na-code`, `na-empty-state`, `na-icon` |
-| Display | `na-card`, `na-badge`, `na-alert`, `na-table`, `na-list`, `na-breadcrumbs`, `na-avatar`, `na-spinner`, `na-progress` |
-| Overlay | `na-modal`, `na-tabs`, `na-tab`, `naTooltip` |
+| Display | `na-card`, `na-badge`, `na-alert`, `na-table`, `na-list`, `na-breadcrumbs`, `na-avatar`, `na-spinner`, `na-progress`, `na-pagination`, `na-skeleton` |
+| Overlay | `na-modal`, `na-drawer`, `na-dropdown`, `na-popconfirm`, `na-tabs`, `na-tab`, `naTooltip` |
+| Feedback | `NaMessage`, `NaNotification` |
 | Shell | `na-header`, `na-footer`, `na-toolbar` |
 
 ## Theme

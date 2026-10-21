@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   NaAlert,
@@ -9,7 +9,10 @@ import {
   NaCard,
   NaCheckbox,
   NaCode,
+  NaDatepicker,
   NaDivider,
+  NaDrawer,
+  NaDropdown,
   NaEmptyState,
   NaField,
   NaForm,
@@ -20,10 +23,16 @@ import {
   NaInput,
   NaLink,
   NaList,
+  NaMessage,
   NaModal,
+  NaNotification,
+  NaPagination,
+  NaPopconfirm,
   NaProgress,
   NaRadioGroup,
   NaRow,
+  NaSelect,
+  NaSkeleton,
   NaSpacer,
   NaSpinner,
   NaSplit,
@@ -37,6 +46,7 @@ import {
   NaTooltip,
   NaUpload,
 } from 'newang';
+import type { NaDropdownItem, NaSelectOption } from 'newang';
 
 // Exhaustive gallery: every component, every state, stable ids for Playwright.
 @Component({
@@ -78,6 +88,13 @@ import {
     NaIcon,
     NaUpload,
     NaTab,
+    NaSelect,
+    NaDatepicker,
+    NaDropdown,
+    NaDrawer,
+    NaPopconfirm,
+    NaPagination,
+    NaSkeleton,
   ],
   template: `
     <na-stack gap="xl">
@@ -332,6 +349,72 @@ import {
         </na-tabs>
       </na-stack></section>
 
+      <section id="sec-p2"><na-stack gap="md">
+        <na-heading level="2">P2 parity</na-heading>
+        <na-text tone="muted">Select, datepicker, dropdown, drawer, message, popconfirm, pagination and skeleton.</na-text>
+        <na-row gap="md">
+          <na-field label="Plan">
+            <na-select
+              id="select-demo"
+              [options]="selectOptions"
+              [(value)]="selectValue"
+              placeholder="Choose a plan"
+            />
+          </na-field>
+          <na-datepicker
+            id="datepicker-demo"
+            label="Start date"
+            hint="Native picker"
+            [(value)]="dateValue"
+          />
+        </na-row>
+        <na-row gap="md">
+          <na-dropdown
+            id="dropdown-demo"
+            label="Actions"
+            [items]="dropdownItems"
+            (selected)="lastAction.set($event.label)"
+          />
+          <na-popconfirm
+            id="popconfirm-demo"
+            message="Delete this draft?"
+            confirmLabel="Delete"
+            (confirmed)="popconfirmCount.set(popconfirmCount() + 1)"
+          >
+            <na-button size="sm" variant="danger">Delete draft</na-button>
+          </na-popconfirm>
+          <na-text tone="muted">action: {{ lastAction() }} · confirmations: {{ popconfirmCount() }}</na-text>
+        </na-row>
+        <na-row gap="md">
+          <na-button id="drawer-open" (pressed)="drawerOpen.set(true)">Open drawer</na-button>
+          <na-button id="msg-success" (pressed)="messages.success('Draft saved')">Show message</na-button>
+          <na-button id="msg-error" variant="danger" (pressed)="messages.error('Upload failed', { duration: 0 })">
+            Sticky error
+          </na-button>
+          <na-button
+            id="notif-demo"
+            variant="secondary"
+            (pressed)="notifications.success('Export ready', { title: 'Downloads' })"
+          >
+            Notification
+          </na-button>
+        </na-row>
+        <na-pagination id="pagination-demo" [total]="95" [pageSize]="10" [(page)]="page" />
+        <na-stack gap="sm">
+          <na-skeleton [lines]="2" />
+          <na-row gap="sm">
+            <na-skeleton circle [height]="40" />
+            <na-skeleton width="200px" [height]="40" />
+          </na-row>
+        </na-stack>
+        <na-drawer id="demo-drawer" title="Filters" [open]="drawerOpen()" (closed)="drawerOpen.set(false)">
+          <na-stack gap="sm">
+            <na-text>Drawer body</na-text>
+            <na-button size="sm" (pressed)="drawerOpen.set(false)">Close</na-button>
+          </na-stack>
+        </na-drawer>
+      </na-stack></section>
+
       <section id="sec-shell"><na-stack gap="md">
         <na-heading level="2">Shell</na-heading>
         <na-header
@@ -365,4 +448,24 @@ export class GalleryPage {
   readonly alertOpen = signal(true);
   readonly source = signal<string | number>('file');
   readonly reactive = new FormControl(true);
+  readonly messages = inject(NaMessage);
+  readonly notifications = inject(NaNotification);
+  readonly selectOptions: NaSelectOption[] = [
+    { value: 'free', label: 'Free' },
+    { value: 'pro', label: 'Pro' },
+    { value: 'team', label: 'Team' },
+    { value: 'enterprise', label: 'Enterprise', disabled: true },
+  ];
+  readonly dropdownItems: NaDropdownItem[] = [
+    { label: 'Edit', value: 'edit' },
+    { label: 'Duplicate', value: 'duplicate' },
+    { label: 'Archive', value: 'archive', disabled: true },
+    { label: 'Delete', value: 'delete', danger: true },
+  ];
+  readonly selectValue = signal<string | number | undefined>('pro');
+  readonly dateValue = signal('');
+  readonly lastAction = signal('none');
+  readonly popconfirmCount = signal(0);
+  readonly drawerOpen = signal(false);
+  readonly page = signal(3);
 }
