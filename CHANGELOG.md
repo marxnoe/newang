@@ -1,3 +1,9 @@
+## [1.5.0](https://github.com/mobn0/newang/compare/v1.4.0...v1.5.0) (2026-10-21)
+
+### Features
+
+* add P2 parity components ([#4](https://github.com/mobn0/newang/issues/4)) ([400c95e](https://github.com/mobn0/newang/commit/400c95ea4f46f63ed6d06384b7d10cd5c5c8f8f7))
+
 ## [1.4.0](https://github.com/mobn0/newang/compare/v1.3.2...v1.4.0) (2026-10-20)
 
 ### Features
