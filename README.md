@@ -65,6 +65,11 @@ No `class=`, no `style=`, no stylesheets. Control everything with inputs: `gap`,
   <na-radio-group label="Plan" [options]="[{ value: 'free', label: 'Free' }, { value: 'pro', label: 'Pro' }]" />
   ```
   Binds via `[(value)]` or `formControl`. `disabled` works both as an input and via `formControl.disable()`. Use `orientation="inline"` for a wrapping row, `variant="segmented"` for compact 2–3 way toggles, and `{ value, label, disabled }` for per-option disabling.
+- `na-code-input` is a segmented entry for share codes, PINs and one-time codes:
+  ```html
+  <na-code-input [length]="5" label="Share code" [(value)]="code" (completed)="open($event)" />
+  ```
+  Binds via `[(value)]` or `formControl`. `charset` is `alphanumeric` (default) or `numeric`; letters are uppercased unless `[uppercase]="false"`. Typing advances, Backspace on an empty box steps back, paste and SMS autofill (`autocomplete="one-time-code"`) spread across the boxes, and `(completed)` fires once every box is filled. `invalid` paints the danger border; `focus()` and `clear()` are public.
 - `na-upload` POSTs `FormData` to `action` and reports progress:
   ```html
   <na-upload action="/upload" name="file" [limit]="1" accept="video/*" drag
@@ -139,7 +144,7 @@ No `class=`, no `style=`, no stylesheets. Control everything with inputs: `gap`,
 | Area | Components |
 | --- | --- |
 | Actions | `na-button` |
-| Forms | `na-field`, `na-form`, `input[naInput]`, `na-switch`, `na-checkbox`, `na-radio-group`, `na-upload`, `na-select`, `na-datepicker` |
+| Forms | `na-field`, `na-form`, `input[naInput]`, `na-switch`, `na-checkbox`, `na-radio-group`, `na-code-input`, `na-upload`, `na-select`, `na-datepicker` |
 | Layout | `na-app`, `na-page`, `na-stack`, `na-row`, `na-grid`, `na-split`, `na-divider`, `na-spacer` |
 | Type | `na-heading`, `na-text`, `na-link`, `na-code`, `na-empty-state`, `na-icon` |
 | Display | `na-card`, `na-badge`, `na-alert`, `na-table`, `na-list`, `na-breadcrumbs`, `na-avatar`, `na-spinner`, `na-progress`, `na-pagination`, `na-skeleton` |

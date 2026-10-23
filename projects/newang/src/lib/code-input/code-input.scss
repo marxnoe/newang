@@ -1,0 +1,48 @@
+@use '../../styles/tokens' as t;
+
+:host {
+  display: block;
+}
+
+.na-code-input {
+  display: flex;
+  gap: t.$na-space-sm;
+}
+
+.na-code-input__box {
+  width: var(--na-control-h-lg, t.$na-control-h-lg);
+  height: calc(var(--na-control-h-lg, t.$na-control-h-lg) + 8px);
+  min-width: 0;
+  flex: 0 1 auto;
+  box-sizing: border-box;
+  padding: 0;
+  text-align: center;
+  font-family: var(--na-mono, t.$na-mono);
+  font-size: var(--na-fs-2xl, t.$na-fs-2xl);
+  font-weight: var(--na-weight-semibold, t.$na-weight-semibold);
+  color: var(--na-text, t.$na-text);
+  caret-color: var(--na-accent, t.$na-accent);
+  background: var(--na-surface-1, t.$na-surface-1);
+  border: 1px solid var(--na-border, t.$na-border);
+  border-radius: var(--na-radius-md, t.$na-radius-md);
+  transition: border-color var(--na-dur, t.$na-dur) ease;
+}
+
+.na-code-input__box:hover:not(:disabled) {
+  border-color: var(--na-border-strong, t.$na-border-strong);
+}
+
+.na-code-input__box:focus {
+  outline: var(--na-focus-ring, t.$na-focus-ring);
+  outline-offset: var(--na-focus-offset, t.$na-focus-offset);
+  border-color: var(--na-accent, t.$na-accent);
+}
+
+.na-code-input__box[aria-invalid='true'] {
+  border-color: var(--na-danger, t.$na-danger);
+}
+
+.na-code-input__box:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
