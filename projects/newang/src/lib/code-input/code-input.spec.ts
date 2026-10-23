@@ -46,7 +46,11 @@ describe('NaCodeInput', () => {
     boxes()[0].dispatchEvent(paste);
     f.detectChanges();
     expect(f.componentInstance.value()).toBe('K7QX2');
-    expect(boxes().map((b) => b.value).join('')).toBe('K7QX2');
+    expect(
+      boxes()
+        .map((b) => b.value)
+        .join(''),
+    ).toBe('K7QX2');
     expect(done).toEqual(['K7QX2']);
   });
 
