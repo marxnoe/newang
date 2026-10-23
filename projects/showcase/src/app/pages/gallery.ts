@@ -9,6 +9,7 @@ import {
   NaCard,
   NaCheckbox,
   NaCode,
+  NaCodeInput,
   NaDatepicker,
   NaDivider,
   NaDrawer,
@@ -72,6 +73,7 @@ import type { NaDropdownItem, NaSelectOption } from 'newang';
     NaSwitch,
     NaCheckbox,
     NaRadioGroup,
+    NaCodeInput,
     NaCard,
     NaBadge,
     NaAlert,
@@ -152,6 +154,12 @@ import type { NaDropdownItem, NaSelectOption } from 'newang';
           [options]="[{ value: 'free', label: 'Free' }]"
           [disabled]="true"
         />
+        <na-field label="Share code" hint="Paste, type or autofill — completes at 5 characters">
+          <na-code-input id="code-basic" [length]="5" label="Share code" [(value)]="code" (completed)="codeDone.set($event)" />
+        </na-field>
+        <na-code-input id="code-invalid" [length]="4" charset="numeric" label="PIN" value="12" [invalid]="true" />
+        <na-code-input id="code-disabled" [length]="4" label="Locked" value="AB" [disabled]="true" />
+        <na-text tone="muted">code: {{ code() }} · completed: {{ codeDone() || 'no' }}</na-text>
         <na-card title="Reactive form disable()" subtitle="formControl.disable() must freeze the UI">
           <na-stack gap="sm">
             <na-switch id="sw-reactive" label="Reactive" [formControl]="reactive" />
@@ -439,6 +447,8 @@ export class GalleryPage {
   readonly cbOn = signal(false);
   readonly plan = signal<string | number>('pro');
   readonly saved = signal(false);
+  readonly code = signal('');
+  readonly codeDone = signal('');
   readonly modalOpen = signal(false);
   readonly tab = signal(0);
   readonly tabIndex = signal(0);

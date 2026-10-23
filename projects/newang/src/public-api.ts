@@ -15,6 +15,7 @@ export * from './lib/tabs/tabs';
 export * from './lib/switch/switch';
 export * from './lib/checkbox/checkbox';
 export * from './lib/radio/radio';
+export * from './lib/code-input/code-input';
 export * from './lib/tooltip/tooltip.directive';
 export * from './lib/icon/icon';
 export * from './lib/upload/upload';
