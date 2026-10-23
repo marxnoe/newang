@@ -1,3 +1,9 @@
+## [1.6.0](https://github.com/marxnoe/newang/compare/v1.5.0...v1.6.0) (2026-10-23)
+
+### Features
+
+* add na-code-input for share codes and one-time codes ([#8](https://github.com/marxnoe/newang/issues/8)) ([0caa498](https://github.com/marxnoe/newang/commit/0caa498e066a4d8e414d2b66e6c9532d1649d855)), closes [#7](https://github.com/marxnoe/newang/issues/7)
+
 ## [1.5.0](https://github.com/mobn0/newang/compare/v1.4.0...v1.5.0) (2026-10-21)
 
 ### Features
