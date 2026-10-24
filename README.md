@@ -175,7 +175,7 @@ Publishing uses **npm OIDC trusted publishing** — no long-lived tokens, no rot
    cd dist/newang && npm publish --access public
    ```
    Then anyone can run `ng add newang` to get the latest release.
-2. **npmjs.com → `newang` package → Settings → Trusted Publishers → Manage Trusted Publishers → GitHub Actions**: organization/user `mobn0`, repository `newang`, workflow file `release.yml`, no environment.
+2. **npmjs.com → `newang` package → Settings → Trusted Publishers → Manage Trusted Publishers → GitHub Actions**: organization/user `marxnoe`, repository `newang`, workflow file `release.yml`, no environment.
 
 After that, every `feat:`/`fix:` push publishes automatically with zero secrets to manage.
 

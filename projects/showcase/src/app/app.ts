@@ -29,7 +29,7 @@ import { NaApp, NaBadge, NaButton, NaFooter, NaHeader, NaPage, NaRow } from 'new
             <a class="show-link" routerLink="/gallery" routerLinkActive="show-link--active">Gallery</a>
           </nav>
           <na-badge>v1.3.0</na-badge>
-          <a class="show-link" href="https://github.com/mobn0/newang" target="_blank" rel="noopener">GitHub</a>
+          <a class="show-link" href="https://github.com/marxnoe/newang" target="_blank" rel="noopener">GitHub</a>
           <na-button routerLink="/signin">Get started</na-button>
         </na-row>
       </na-header>

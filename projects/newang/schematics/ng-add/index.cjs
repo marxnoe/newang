@@ -118,7 +118,7 @@ function sayHello() {
     context.logger.info('');
     context.logger.info('newang installed — dark theme, pastel lime accent, zero CSS needed.');
     context.logger.info('Example: <na-app><na-page><na-button>Save</na-button></na-page></na-app>');
-    context.logger.info('Docs: https://github.com/mobn0/newang#readme');
+    context.logger.info('Docs: https://github.com/marxnoe/newang#readme');
     return _tree;
   };
 }
