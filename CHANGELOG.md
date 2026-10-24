@@ -1,3 +1,9 @@
+## [1.6.1](https://github.com/marxnoe/newang/compare/v1.6.0...v1.6.1) (2026-10-24)
+
+### Bug Fixes
+
+* point package metadata at marxnoe/newang so npm publishing works again ([#10](https://github.com/marxnoe/newang/issues/10)) ([edea92c](https://github.com/marxnoe/newang/commit/edea92cd36839d5f26f0b8c77323c1e253a96469)), closes [#9](https://github.com/marxnoe/newang/issues/9)
+
 ## [1.6.0](https://github.com/marxnoe/newang/compare/v1.5.0...v1.6.0) (2026-10-23)
 
 ### Features
