@@ -1,3 +1,9 @@
+## [1.8.0](https://github.com/marxnoe/newang/compare/v1.7.0...v1.8.0) (2026-11-03)
+
+### Features
+
+* add a ring variant to na-progress ([#18](https://github.com/marxnoe/newang/issues/18)) ([2412877](https://github.com/marxnoe/newang/commit/2412877dbe6a30a0749eb0265019224038f8dc81)), closes [#14](https://github.com/marxnoe/newang/issues/14) [#14](https://github.com/marxnoe/newang/issues/14)
+
 ## [1.7.0](https://github.com/marxnoe/newang/compare/v1.6.1...v1.7.0) (2026-11-03)
 
 ### Features
