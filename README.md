@@ -70,6 +70,11 @@ No `class=`, no `style=`, no stylesheets. Control everything with inputs: `gap`,
   <na-code-input [length]="5" label="Share code" [(value)]="code" (completed)="open($event)" />
   ```
   Binds via `[(value)]` or `formControl`. `charset` is `alphanumeric` (default) or `numeric`; letters are uppercased unless `[uppercase]="false"`. Typing advances, Backspace on an empty box steps back, paste and SMS autofill (`autocomplete="one-time-code"`) spread across the boxes, and `(completed)` fires once every box is filled. `invalid` paints the danger border; `focus()` and `clear()` are public.
+- `na-time-input` is a 24-hour `HH:mm` field with an hours and a minutes segment, no AM/PM:
+  ```html
+  <na-time-input label="Start" [(value)]="start" />
+  ```
+  Binds via `[(value)]` or `formControl`. Digits enter on the right and shift left like a native time input; values clamp to 23 and 59 once the field loses focus. Finishing a segment does not jump to the other one: use Tab, ArrowLeft/ArrowRight or `:`. ArrowUp/ArrowDown step, Backspace/Delete reset the segment to `00`. `invalid` paints the danger border.
 - `na-upload` POSTs `FormData` to `action` and reports progress:
   ```html
   <na-upload action="/upload" name="file" [limit]="1" accept="video/*" drag
@@ -144,7 +149,7 @@ No `class=`, no `style=`, no stylesheets. Control everything with inputs: `gap`,
 | Area | Components |
 | --- | --- |
 | Actions | `na-button` |
-| Forms | `na-field`, `na-form`, `input[naInput]`, `na-switch`, `na-checkbox`, `na-radio-group`, `na-code-input`, `na-upload`, `na-select`, `na-datepicker` |
+| Forms | `na-field`, `na-form`, `input[naInput]`, `na-switch`, `na-checkbox`, `na-radio-group`, `na-code-input`, `na-time-input`, `na-upload`, `na-select`, `na-datepicker` |
 | Layout | `na-app`, `na-page`, `na-stack`, `na-row`, `na-grid`, `na-split`, `na-divider`, `na-spacer` |
 | Type | `na-heading`, `na-text`, `na-link`, `na-code`, `na-empty-state`, `na-icon` |
 | Display | `na-card`, `na-badge`, `na-alert`, `na-table`, `na-list`, `na-breadcrumbs`, `na-avatar`, `na-spinner`, `na-progress`, `na-pagination`, `na-skeleton` |

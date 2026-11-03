@@ -1,0 +1,67 @@
+@use '../../styles/tokens' as t;
+
+:host {
+  display: inline-block;
+}
+
+.na-time-input {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: var(--na-control-h-md, t.$na-control-h-md);
+  padding: 0 10px;
+  font-family: var(--na-font, t.$na-font);
+  font-size: var(--na-fs-md, t.$na-fs-md);
+  color: var(--na-text, t.$na-text);
+  background: var(--na-surface-1, t.$na-surface-1);
+  border: 1px solid var(--na-border, t.$na-border);
+  border-radius: var(--na-radius-md, t.$na-radius-md);
+  transition: border-color var(--na-dur, t.$na-dur) ease;
+}
+
+.na-time-input:hover:not(.na-time-input--disabled) {
+  border-color: var(--na-border-strong, t.$na-border-strong);
+}
+
+.na-time-input:focus-within {
+  border-color: var(--na-accent, t.$na-accent);
+}
+
+.na-time-input--invalid,
+.na-time-input--invalid:hover:not(.na-time-input--disabled) {
+  border-color: var(--na-danger, t.$na-danger);
+}
+
+.na-time-input--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.na-time-input__sep {
+  padding: 0 2px;
+  color: var(--na-text-muted, t.$na-text-muted);
+}
+
+.na-time-input__segment {
+  width: 2.2ch;
+  padding: 2px 1px;
+  border: 0;
+  border-radius: var(--na-radius-sm, t.$na-radius-sm);
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  caret-color: transparent;
+  cursor: text;
+}
+
+.na-time-input__segment:focus {
+  background: var(--na-accent, t.$na-accent);
+  color: var(--na-accent-ink, t.$na-accent-ink);
+}
+
+.na-time-input__segment:disabled {
+  cursor: not-allowed;
+}
