@@ -228,6 +228,7 @@ import type { NaDropdownItem, NaSelectOption } from 'newang';
           <na-progress id="prog-100" [value]="100" />
           <na-progress id="prog-150" [value]="150" />
           <na-progress id="prog-neg" [value]="-20" />
+          <na-progress id="prog-ring" variant="ring" [value]="72" tone="success" [size]="120">72%</na-progress>
         </na-stack>
         <na-table
           [columns]="[{ key: 'name', header: 'Name' }, { key: 'role', header: 'Role' }]"
