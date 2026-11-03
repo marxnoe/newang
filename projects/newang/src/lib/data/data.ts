@@ -142,7 +142,7 @@ export type NaProgressTone = 'accent' | 'success' | 'warning' | 'danger';
             pathLength="100"
             [attr.r]="radius()"
             [attr.stroke-width]="stroke()"
-            [attr.stroke-dasharray]="clamped() + ' 100'"
+            [attr.stroke-dasharray]="dash()"
           />
         </svg>
         <div class="na-progress-ring__label"><ng-content /></div>
@@ -172,6 +172,11 @@ export class NaProgress {
   // The SVG is drawn in a 100×100 box, so scale the px thickness into it.
   protected readonly stroke = computed(() => (this.thickness() / Math.max(1, this.size())) * 100);
   protected readonly radius = computed(() => 50 - this.stroke() / 2);
+  // A full ring is drawn solid: a 100/100 dash leaves a hairline gap at the top in Chromium.
+  protected readonly dash = computed(() => {
+    const v = this.clamped();
+    return v >= 100 ? 'none' : `${v} 100`;
+  });
 
   clamped(): number {
     const v = this.value();

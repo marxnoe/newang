@@ -26,7 +26,7 @@ describe('NaProgress ring', () => {
     f.componentInstance.value.set(180);
     f.detectChanges();
     expect(ring.getAttribute('aria-valuenow')).toBe('100');
-    expect(host.querySelector('.na-progress-ring__fill')?.getAttribute('stroke-dasharray')).toBe('100 100');
+    expect(host.querySelector('.na-progress-ring__fill')?.getAttribute('stroke-dasharray')).toBe('none');
   });
 
   it('keeps the bar as the default', () => {
