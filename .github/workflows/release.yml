@@ -3,6 +3,9 @@ name: release
 on:
   push:
     branches: [main]
+  # Lets a failed publish be retried: the committed version is built and published
+  # if it isn't on npm yet.
+  workflow_dispatch:
 
 permissions:
   contents: write
