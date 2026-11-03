@@ -105,7 +105,59 @@
 
 .na-progress__fill {
   height: 100%;
-  background: var(--na-accent, t.$na-accent);
+  background: var(--na-progress-color);
+}
+
+.na-progress--accent {
+  --na-progress-color: var(--na-accent, #{t.$na-accent});
+}
+
+.na-progress--success {
+  --na-progress-color: var(--na-success, #{t.$na-success});
+}
+
+.na-progress--warning {
+  --na-progress-color: var(--na-warning, #{t.$na-warning});
+}
+
+.na-progress--danger {
+  --na-progress-color: var(--na-danger, #{t.$na-danger});
+}
+
+.na-progress-ring {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.na-progress-ring__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.na-progress-ring__track,
+.na-progress-ring__fill {
+  fill: none;
+}
+
+.na-progress-ring__track {
+  stroke: var(--na-surface-3, t.$na-surface-3);
+}
+
+.na-progress-ring__fill {
+  stroke: var(--na-progress-color);
+  transition: stroke-dasharray var(--na-dur, t.$na-dur) ease;
+}
+
+.na-progress-ring__label {
+  position: relative;
+  text-align: center;
+  font-family: var(--na-font, t.$na-font);
+  color: var(--na-text, t.$na-text);
 }
 
 @keyframes na-spin {

@@ -65,6 +65,16 @@ No `class=`, no `style=`, no stylesheets. Control everything with inputs: `gap`,
   <na-radio-group label="Plan" [options]="[{ value: 'free', label: 'Free' }, { value: 'pro', label: 'Pro' }]" />
   ```
   Binds via `[(value)]` or `formControl`. `disabled` works both as an input and via `formControl.disable()`. Use `orientation="inline"` for a wrapping row, `variant="segmented"` for compact 2–3 way toggles, and `{ value, label, disabled }` for per-option disabling.
+- `na-code-input` is a segmented entry for share codes, PINs and one-time codes:
+  ```html
+  <na-code-input [length]="5" label="Share code" [(value)]="code" (completed)="open($event)" />
+  ```
+  Binds via `[(value)]` or `formControl`. `charset` is `alphanumeric` (default) or `numeric`; letters are uppercased unless `[uppercase]="false"`. Typing advances, Backspace on an empty box steps back, paste and SMS autofill (`autocomplete="one-time-code"`) spread across the boxes, and `(completed)` fires once every box is filled. `invalid` paints the danger border; `focus()` and `clear()` are public.
+- `na-time-input` is a 24-hour `HH:mm` field with an hours and a minutes segment, no AM/PM:
+  ```html
+  <na-time-input label="Start" [(value)]="start" />
+  ```
+  Binds via `[(value)]` or `formControl`. Digits enter on the right and shift left like a native time input; values clamp to 23 and 59 once the field loses focus. Finishing a segment does not jump to the other one: use Tab, ArrowLeft/ArrowRight or `:`. ArrowUp/ArrowDown step, Backspace/Delete reset the segment to `00`. `invalid` paints the danger border.
 - `na-upload` POSTs `FormData` to `action` and reports progress:
   ```html
   <na-upload action="/upload" name="file" [limit]="1" accept="video/*" drag
@@ -132,14 +142,17 @@ No `class=`, no `style=`, no stylesheets. Control everything with inputs: `gap`,
   ```
   `pageChange` is the model output; pages are 1-based and all controls disable together.
 - `na-skeleton` pulses opacity only (no gradients): `width`, `height`, `lines`, `circle`, and an optional `label` for `role="status"`; without a label it is `aria-hidden`.
-- `na-progress` clamps `value` to 0–100.
+- `na-progress` clamps `value` to 0–100. It's a bar by default; `variant="ring"` draws a circle (`size` px, default 160, `thickness` default 8) with the projected content centred inside. `tone` is `accent` (default), `success`, `warning` or `danger`:
+  ```html
+  <na-progress variant="ring" [value]="pct" tone="success"><strong>+00:48</strong></na-progress>
+  ```
 
 ## Components
 
 | Area | Components |
 | --- | --- |
 | Actions | `na-button` |
-| Forms | `na-field`, `na-form`, `input[naInput]`, `na-switch`, `na-checkbox`, `na-radio-group`, `na-upload`, `na-select`, `na-datepicker` |
+| Forms | `na-field`, `na-form`, `input[naInput]`, `na-switch`, `na-checkbox`, `na-radio-group`, `na-code-input`, `na-time-input`, `na-upload`, `na-select`, `na-datepicker` |
 | Layout | `na-app`, `na-page`, `na-stack`, `na-row`, `na-grid`, `na-split`, `na-divider`, `na-spacer` |
 | Type | `na-heading`, `na-text`, `na-link`, `na-code`, `na-empty-state`, `na-icon` |
 | Display | `na-card`, `na-badge`, `na-alert`, `na-table`, `na-list`, `na-breadcrumbs`, `na-avatar`, `na-spinner`, `na-progress`, `na-pagination`, `na-skeleton` |
@@ -170,7 +183,7 @@ Publishing uses **npm OIDC trusted publishing** — no long-lived tokens, no rot
    cd dist/newang && npm publish --access public
    ```
    Then anyone can run `ng add newang` to get the latest release.
-2. **npmjs.com → `newang` package → Settings → Trusted Publishers → Manage Trusted Publishers → GitHub Actions**: organization/user `mobn0`, repository `newang`, workflow file `release.yml`, no environment.
+2. **npmjs.com → `newang` package → Settings → Trusted Publishers → Manage Trusted Publishers → GitHub Actions**: organization/user `marxnoe`, repository `newang`, workflow file `release.yml`, no environment.
 
 After that, every `feat:`/`fix:` push publishes automatically with zero secrets to manage.
 

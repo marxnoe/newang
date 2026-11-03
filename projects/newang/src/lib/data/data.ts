@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, numberAttribute } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, numberAttribute } from '@angular/core';
 
 export interface NaTableColumn {
   key: string;
@@ -107,26 +107,71 @@ export class NaSpinner {
   readonly label = input('Loading');
 }
 
-/** Flat progress bar — solid lime fill, no gradient. `value` is clamped to 0–100. */
+export type NaProgressVariant = 'bar' | 'ring';
+export type NaProgressTone = 'accent' | 'success' | 'warning' | 'danger';
+
+/**
+ * Flat progress — solid fill, no gradient. `value` is clamped to 0–100.
+ *
+ * `<na-progress [value]="45" />` draws a bar. `variant="ring"` draws a circle of
+ * `size` px with projected content centred inside it:
+ * `<na-progress variant="ring" [value]="80" tone="success">06:30</na-progress>`
+ */
 @Component({
   selector: 'na-progress',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './data.scss',
   template: `
-    <div
-      class="na-progress"
-      role="progressbar"
-      [attr.aria-valuenow]="clamped()"
-      aria-valuemin="0"
-      aria-valuemax="100"
-    >
-      <div class="na-progress__fill" [style.width.%]="clamped()"></div>
-    </div>
+    @if (variant() === 'ring') {
+      <div
+        class="na-progress-ring na-progress--{{ tone() }}"
+        role="progressbar"
+        [attr.aria-valuenow]="clamped()"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        [style.width.px]="size()"
+        [style.height.px]="size()"
+      >
+        <svg class="na-progress-ring__svg" viewBox="0 0 100 100" aria-hidden="true">
+          <circle class="na-progress-ring__track" cx="50" cy="50" [attr.r]="radius()" [attr.stroke-width]="stroke()" />
+          <circle
+            class="na-progress-ring__fill"
+            cx="50"
+            cy="50"
+            pathLength="100"
+            [attr.r]="radius()"
+            [attr.stroke-width]="stroke()"
+            [attr.stroke-dasharray]="clamped() + ' 100'"
+          />
+        </svg>
+        <div class="na-progress-ring__label"><ng-content /></div>
+      </div>
+    } @else {
+      <div
+        class="na-progress na-progress--{{ tone() }}"
+        role="progressbar"
+        [attr.aria-valuenow]="clamped()"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      >
+        <div class="na-progress__fill" [style.width.%]="clamped()"></div>
+      </div>
+    }
   `,
 })
 export class NaProgress {
   readonly value = input(0, { transform: numberAttribute });
+  readonly variant = input<NaProgressVariant>('bar');
+  readonly tone = input<NaProgressTone>('accent');
+  /** Ring diameter in px. */
+  readonly size = input(160, { transform: numberAttribute });
+  /** Ring thickness in px at the given `size`. */
+  readonly thickness = input(8, { transform: numberAttribute });
+
+  // The SVG is drawn in a 100×100 box, so scale the px thickness into it.
+  protected readonly stroke = computed(() => (this.thickness() / Math.max(1, this.size())) * 100);
+  protected readonly radius = computed(() => 50 - this.stroke() / 2);
 
   clamped(): number {
     const v = this.value();
