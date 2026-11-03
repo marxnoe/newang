@@ -1,3 +1,9 @@
+## [1.7.0](https://github.com/marxnoe/newang/compare/v1.6.1...v1.7.0) (2026-11-03)
+
+### Features
+
+* add na-time-input for 24-hour HH:mm times ([#15](https://github.com/marxnoe/newang/issues/15)) ([223e7b9](https://github.com/marxnoe/newang/commit/223e7b9e3fc036869a446116e3580aebf93e951c)), closes [#13](https://github.com/marxnoe/newang/issues/13)
+
 ## [1.6.1](https://github.com/marxnoe/newang/compare/v1.6.0...v1.6.1) (2026-10-24)
 
 ### Bug Fixes
