@@ -21,6 +21,7 @@ import {
   NaHeader,
   NaHeading,
   NaIcon,
+  NaLikeButton,
   NaInput,
   NaLink,
   NaList,
@@ -88,6 +89,7 @@ import type { NaDropdownItem, NaSelectOption } from 'newang';
     NaTooltip,
     NaToolbar,
     NaIcon,
+    NaLikeButton,
     NaUpload,
     NaTab,
     NaSelect,
@@ -283,6 +285,9 @@ import type { NaDropdownItem, NaSelectOption } from 'newang';
       <section id="sec-migration"><na-stack gap="md">
         <na-heading level="2">Migration primitives</na-heading>
         <na-row id="icon-row" gap="sm">
+          <na-like-button [(liked)]="liked" [count]="liked() ? 13 : 12" />
+          <na-like-button size="sm" [count]="3" />
+          <na-icon name="heart" tone="accent" />
           <na-icon name="inbox" />
           <na-icon name="check" tone="success" />
           <na-icon name="copy" tone="muted" />
@@ -446,6 +451,7 @@ import type { NaDropdownItem, NaSelectOption } from 'newang';
 })
 export class GalleryPage {
   readonly swOn = signal(true);
+  readonly liked = signal(false);
   readonly cbOn = signal(false);
   readonly plan = signal<string | number>('pro');
   readonly saved = signal(false);

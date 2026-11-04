@@ -19,6 +19,7 @@ export * from './lib/code-input/code-input';
 export * from './lib/time-input/time-input';
 export * from './lib/tooltip/tooltip.directive';
 export * from './lib/icon/icon';
+export * from './lib/like-button/like-button';
 export * from './lib/upload/upload';
 export * from './lib/avatar/avatar';
 export * from './lib/layout/layout';
