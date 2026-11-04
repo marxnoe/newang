@@ -37,3 +37,26 @@
   flex-direction: column;
   gap: t.$na-space-md;
 }
+
+.na-card--link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--na-border-strong, t.$na-border-strong);
+    background: var(--na-surface-2, t.$na-surface-2);
+  }
+
+  &:focus-visible {
+    outline: var(--na-focus-ring, t.$na-focus-ring);
+    outline-offset: var(--na-focus-offset, t.$na-focus-offset);
+  }
+}
+
+.na-card__mark {
+  margin-left: t.$na-space-xs;
+  color: var(--na-text-muted, t.$na-text-muted);
+  vertical-align: middle;
+}
