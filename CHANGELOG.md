@@ -1,3 +1,9 @@
+## [1.9.0](https://github.com/marxnoe/newang/compare/v1.8.0...v1.9.0) (2026-11-04)
+
+### Features
+
+* let na-card link somewhere with an href input ([#20](https://github.com/marxnoe/newang/issues/20)) ([fa1495d](https://github.com/marxnoe/newang/commit/fa1495d28137b55a9c322260c1f0f010338565c8)), closes [#19](https://github.com/marxnoe/newang/issues/19)
+
 ## [1.8.0](https://github.com/marxnoe/newang/compare/v1.7.0...v1.8.0) (2026-11-03)
 
 ### Features
