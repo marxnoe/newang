@@ -211,6 +211,7 @@ import type { NaDropdownItem, NaSelectOption } from 'newang';
         <na-alert tone="warning" title="Careful">Warning alert body copy.</na-alert>
         <na-alert tone="danger" title="Failed">Danger alert body copy.</na-alert>
         <na-card title="Card title" subtitle="Card subtitle"><na-text tone="muted">Card body.</na-text></na-card>
+        <na-card title="Linked card" subtitle="The whole card is a link" href="#"><na-text tone="muted">Hover me.</na-text></na-card>
         <na-breadcrumbs id="crumbs-str" [items]="['Home', 'Library', 'Gallery']" />
         <na-breadcrumbs id="crumbs-href" [items]="[{ label: 'Home', href: '/' }, { label: 'Gallery', href: '/gallery' }, 'Here']" />
         <na-row gap="sm">

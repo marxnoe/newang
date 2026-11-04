@@ -142,6 +142,10 @@ No `class=`, no `style=`, no stylesheets. Control everything with inputs: `gap`,
   ```
   `pageChange` is the model output; pages are 1-based and all controls disable together.
 - `na-skeleton` pulses opacity only (no gradients): `width`, `height`, `lines`, `circle`, and an optional `label` for `role="status"`; without a label it is `aria-hidden`.
+- `na-card` takes an optional `href` (and `target`). With it the whole card is an `<a>`: the border and surface step up on hover, it gets the focus ring, and a small external-link mark sits by the title:
+  ```html
+  <na-card title="MediaLinker" subtitle="Share files" href="https://medialinker.noecore.com"><na-text tone="muted">Up</na-text></na-card>
+  ```
 - `na-progress` clamps `value` to 0–100. It's a bar by default; `variant="ring"` draws a circle (`size` px, default 160, `thickness` default 8) with the projected content centred inside. `tone` is `accent` (default), `success`, `warning` or `danger`:
   ```html
   <na-progress variant="ring" [value]="pct" tone="success"><strong>+00:48</strong></na-progress>
