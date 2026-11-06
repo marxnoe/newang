@@ -81,7 +81,8 @@ No `class=`, no `style=`, no stylesheets. Control everything with inputs: `gap`,
     (change)="onChange($event)" (progress)="onProgress($event)" />
   ```
   `change`/`progress` payloads are `{ status: 'uploading' | 'done' | 'error', percent, response, error, file }`. `drag` enables drop handling; `limit` defaults to unlimited; each queued file has a Cancel/Remove button. The dropzone is a native button, so Enter/Space opens the picker.
-- `na-icon` renders the closed built-in set (`inbox`, `check`, `copy`, `x`, `upload`, `download`, `alert`, `info`, `chevron-*`, `spinner`, plus a few utility glyphs): `<na-icon name="inbox" size="20" tone="muted" />`. Icons are decorative unless you pass `label`.
+- `na-icon` renders the closed built-in set (`inbox`, `check`, `copy`, `x`, `upload`, `download`, `alert`, `info`, `chevron-*`, `spinner`, `heart`, plus a few utility glyphs): `<na-icon name="inbox" size="20" tone="muted" />`. Icons are decorative unless you pass `label`.
+- `na-like-button` is a heart toggle with a count: `<na-like-button [(liked)]="liked" [count]="likes" (likedChange)="save($event)" />`. It only flips `liked` and emits; save the like yourself and update `count`. It sets `aria-pressed`, fills the heart in the accent colour when liked, and takes `size` (`sm` / `md`), `disabled` and `label` (accessible name, default `Like`, with the count appended).
 - `na-link copyable` adds a clipboard button with a visible `Copied!` state and `(copied)`: `<na-link href="…" copyable [copyText]="url">…</na-link>`. `copyText` falls back to `href`; clipboard API falls back to `execCommand`.
 - `na-alert` supports `showIcon` (or an explicit `icon`), `description`, and `closable` + `(closed)`. Content still projects into the body slot.
 - `na-tabs` accepts the original labels API or projected tabs with stable ids:
@@ -155,7 +156,7 @@ No `class=`, no `style=`, no stylesheets. Control everything with inputs: `gap`,
 
 | Area | Components |
 | --- | --- |
-| Actions | `na-button` |
+| Actions | `na-button`, `na-like-button` |
 | Forms | `na-field`, `na-form`, `input[naInput]`, `na-switch`, `na-checkbox`, `na-radio-group`, `na-code-input`, `na-time-input`, `na-upload`, `na-select`, `na-datepicker` |
 | Layout | `na-app`, `na-page`, `na-stack`, `na-row`, `na-grid`, `na-split`, `na-divider`, `na-spacer` |
 | Type | `na-heading`, `na-text`, `na-link`, `na-code`, `na-empty-state`, `na-icon` |

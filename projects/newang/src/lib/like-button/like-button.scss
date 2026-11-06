@@ -1,0 +1,69 @@
+@use '../../styles/tokens' as t;
+
+:host {
+  display: inline-block;
+}
+
+.na-like {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: t.$na-space-xs;
+  height: var(--na-control-h-md, t.$na-control-h-md);
+  padding: 0 12px;
+  font-family: var(--na-font, t.$na-font);
+  font-size: var(--na-fs-md, t.$na-fs-md);
+  font-weight: var(--na-weight-semibold, t.$na-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--na-text-muted, t.$na-text-muted);
+  background: transparent;
+  border: 1px solid var(--na-border, t.$na-border);
+  border-radius: var(--na-radius-md, t.$na-radius-md);
+  cursor: pointer;
+  transition: color var(--na-dur, t.$na-dur) ease, border-color var(--na-dur, t.$na-dur) ease,
+    background var(--na-dur, t.$na-dur) ease;
+}
+
+.na-like--sm {
+  height: var(--na-control-h-sm, t.$na-control-h-sm);
+  padding: 0 8px;
+  font-size: var(--na-fs-sm, t.$na-fs-sm);
+}
+
+.na-like:hover:not(:disabled) {
+  color: var(--na-text, t.$na-text);
+  border-color: var(--na-border-strong, t.$na-border-strong);
+}
+
+.na-like--on,
+.na-like--on:hover:not(:disabled) {
+  color: var(--na-accent, t.$na-accent);
+  border-color: var(--na-accent, t.$na-accent);
+}
+
+.na-like:focus-visible {
+  outline: var(--na-focus-ring, t.$na-focus-ring);
+  outline-offset: var(--na-focus-offset, t.$na-focus-offset);
+}
+
+.na-like:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.na-like__heart {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  transition: fill var(--na-dur, t.$na-dur) ease;
+}
+
+.na-like--sm .na-like__heart {
+  width: 16px;
+  height: 16px;
+}
+
+.na-like--on .na-like__heart {
+  fill: currentColor;
+}
