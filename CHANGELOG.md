@@ -1,3 +1,9 @@
+## [1.10.0](https://github.com/marxnoe/newang/compare/v1.9.0...v1.10.0) (2026-11-06)
+
+### Features
+
+* add na-like-button and a heart icon ([#22](https://github.com/marxnoe/newang/issues/22)) ([946344a](https://github.com/marxnoe/newang/commit/946344a572cb84be227ab214743082866e442c6e)), closes [#21](https://github.com/marxnoe/newang/issues/21)
+
 ## [1.9.0](https://github.com/marxnoe/newang/compare/v1.8.0...v1.9.0) (2026-11-04)
 
 ### Features
